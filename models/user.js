@@ -21,36 +21,39 @@ const userSchema = new Schema(
       match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
     },
 
-    thoughts: {
-      type: Array,
-      reference: {
-        model: 'thought',
-        foreignKey: 'id'
-      }
-    },
-    endDate: {
-      type: Date,
-      // Sets a default value of 12 weeks from now
-      default: () => new Date(+new Date() + 84 * 24 * 60 * 60 * 1000),
-    },
-    students: [
+    thoughts: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Student',
-      },
+        ref: 'thought'
+      }
     ],
-  },
-  {
+
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+      }
+    ],
+
     toJSON: {
       virtuals: true,
     },
     id: false,
-  }
-);
+
+  });
+
+//   ** Schema Settings **:
+
+// Create a virtual called `friendCount` that retrieves the length of the user's `friends` array field on query.
+
+
+userSchema.virtual('friendCount').get(function () {
+  return this.friends.length;
+});
 
 const user = model('user', userSchema);
 
-module.exports = user;
+module.exports = userSchema
 
 
 /* **User**:
@@ -72,14 +75,3 @@ module.exports = user;
 
 * `friends`
   * Array of `_id` values referencing the `User` model (self-reference)
-
-**Schema Settings**:
-
-Create a virtual called `friendCount` that retrieves the length of the user's `friends` array field on query.
-*/
-
-
-// Create a virtual property `commentCount` that gets the amount of comments per post
-postSchema.virtual('commentCount').get(function () {
-  return this.comments.length;
-});

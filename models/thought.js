@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const assignmentSchema = require('./Assignment');
+const reactionSchema = require('./reaction');
 
 // Schema to create Thought model
 const thoughtSchema = new Schema(
@@ -7,13 +7,12 @@ const thoughtSchema = new Schema(
     thought_text: {
       type: String,
       required: true,
-      max_length: 50,
+      max_length: 280,
+      min_length: 1,
     },
     created_at: {
       type: Date,
       required: true,
-      max_length: 280,
-      min_length: 1
     },
     username: {
       type: String,
@@ -22,6 +21,7 @@ const thoughtSchema = new Schema(
   },
   reactions = [reactionSchema],
   {
+    // * Use a getter method to format the timestamp on query
     toJSON: {
       getters: true,
     },
@@ -31,7 +31,11 @@ const thoughtSchema = new Schema(
     id: false,
   }
 );
+// Create a virtual called `reactionCount` that retrieves the length of the thought's `reactions` array field on query. 
 
+thoughtSchema.virtual('reactionCount').get(function () {
+  return this.reactions.length;
+});
 module.exports = thoughtSchema;
 
 /*
@@ -45,7 +49,7 @@ module.exports = thoughtSchema;
     * `createdAt`
     * Date
     * Set default value to the current timestamp
-      * Use a getter method to format the timestamp on query
+
 
         * `username`(The user that created this thought)
         * String
@@ -56,4 +60,3 @@ module.exports = thoughtSchema;
 
         ** Schema Settings **:
 
-Create a virtual called `reactionCount` that retrieves the length of the thought's `reactions` array field on query. */

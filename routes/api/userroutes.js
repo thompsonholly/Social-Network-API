@@ -1,25 +1,29 @@
 const router = require('express').Router();
 const {
-  getCourses,
-  getSingleCourse,
-  createCourse,
-  updateCourse,
-  deleteCourse,
-} = require('../../controllers/courseController.js');
+  getUsers,
+  getSingleUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  newUser,
+} = require('../../controllers/usercontroller.js');
 
-// /api/courses
-router.route('/').get(getCourses).post(createCourse);
+// /api/users getUsers - get all
+router.route('/').get(getUsers).post(createUser);
 
-// /api/courses/:courseId
+
+router.route('/:userId').post(newUser);
+
+
+// /api/UsersgetUsers/:UserId
 router
-  .route('/:courseId')
-  .get(getSingleCourse)
-  .put(updateCourse)
-  .delete(deleteCourse);
+  .route('/:userId')
+  .get(getSingleUser)
+  .put(updateUser)
+  .delete(deleteUser);
+
 
 module.exports = router;
-
-
 /*
 **`/api/users`**
 
@@ -41,3 +45,4 @@ module.exports = router;
 
 * `DELETE` to remove user by its `_id`
 */
+

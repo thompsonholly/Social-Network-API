@@ -1,4 +1,4 @@
-const { User, Thought } = require('../models');
+const { User } = require('../models');
 
 //aggregate function to get the total of users overall
 const userCount = async () => {
@@ -84,5 +84,47 @@ module.exports = {
     } catch (err) {
       res.status(500).json(err);
     }
-  }
-}
+  },
+  // create a new friend
+  async addNewFriend(req, res) {
+    try {
+      const { userId, friendId } = req.params;
+      const user = await User.findById(userId);
+      const friend = await User.findById(friendId);
+
+      if (!user || !friend) {
+        return res.status(404).json({ error: "User or friend does not exist" });
+      }
+
+      user.friends.push(friendId);
+
+      await user.save();
+
+      res.status(200).json({ response: "Friend was added" });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  // Delete a friend and remove them 
+  async removeNewFriend(req, res) {
+    try {
+      const friend = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $pull: { friends: req.params.friendId } },
+        { new: true }
+      );
+
+      if (!friend) {
+        return res.status(404).json({
+          message: 'No friends found',
+        });
+      }
+
+      res.json({ message: 'Friend was deleted' });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
+};
+

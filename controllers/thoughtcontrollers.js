@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongoose').Types;
-const { Thought, User } = require('../models');
+const { Thought } = require('../models');
 
 
 //aggregate function get the total number of thoughts overall

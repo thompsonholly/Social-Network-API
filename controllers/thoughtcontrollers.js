@@ -67,22 +67,10 @@ module.exports = {
   // Delete a reaction and remove them from the thought
   async deleteThought(req, res) {
     try {
-      const thought = await Thought.findOneAndRemove({ _id: req.params.thoughtId });
+      const thought = await Thought.findOneAndDelete({ id: req.params._id });
 
       if (!thought) {
         return res.status(404).json({ message: 'No such thought exists' });
-      }
-
-      const thought = await Thought.findOneAndUpdate(
-        { thoughts: req.params.thoughtId },
-        { $pull: { thoughts: req.params.thoughtIdId } },
-        { new: true }
-      );
-
-      if (!thought) {
-        return res.status(404).json({
-          message: 'Thought deleted, but no reaction found',
-        });
       }
 
       res.json({ message: 'Thought successfully deleted' });
@@ -94,8 +82,6 @@ module.exports = {
 
   // Add an reaction to a thought
   async addReaction(req, res) {
-    console.log('You are adding an reaction');
-    console.log(req.body);
 
     try {
       const thought = await Thought.findOneAndUpdate(

@@ -2,7 +2,7 @@
 
 ## Description
 
-A social network API project, to create an app where users can share thoughts and reactions. In the app they are able to create a profile, update their profile, add and update friends. 
+A social network API project, to create an app where users can share thoughts and reactions. In the app, they are able to create a profile, update their profile, add and update friends. 
 
 ## Table of Contents
 

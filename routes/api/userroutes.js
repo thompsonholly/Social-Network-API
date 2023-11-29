@@ -5,17 +5,15 @@ const {
   createUser,
   updateUser,
   deleteUser,
-  newUser,
-} = require('../../controllers/usercontroller.js');
+
+} = require('../../controllers/usercontrollers.js');
 
 // /api/users getUsers - get all
 router.route('/').get(getUsers).post(createUser);
 
 
-router.route('/:userId').post(newUser);
 
-
-// /api/UsersgetUsers/:UserId
+// /api/Users getUsers/:UserId
 router
   .route('/:userId')
   .get(getSingleUser)
@@ -31,7 +29,7 @@ module.exports = router;
 
 * `GET` a single user by its `_id` and populated thought and friend data
 
-* `POST` a new user:
+* `POST` a create user:
 
 ```json
 // example data

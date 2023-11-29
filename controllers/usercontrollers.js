@@ -1,26 +1,40 @@
 const { User, Thought } = require('../models');
 
+//aggregate function to get the total of users overall
+const userCount = async () => {
+  const numberOfUsers = await User.aggregate().count('UserCount')
+  return numberOfUsers;
+}
+
 module.exports = {
   // Get all users
-  async getUsers(req, res) {
+  async getAllUsers(req, res) {
     try {
       const users = await User.find();
-      res.json(users);
+
+      const userObj = {
+        users,
+        userCount: await userCount(),
+      };
+
+      res.json(userObj);
+
     } catch (err) {
       res.status(500).json(err);
     }
   },
+
   // Get a user
   async getSingleUser(req, res) {
     try {
-      const user = await User.findOne({ _id: req.params.userId })
-        .select('-__v');
+      const user = await User.findOne({ id: req.params._id }).select('-__v');
 
       if (!user) {
         return res.status(404).json({ message: 'No user with that ID' });
       }
 
-      res.json(user);
+      res.json({ user });
+
     } catch (err) {
       res.status(500).json(err);
     }

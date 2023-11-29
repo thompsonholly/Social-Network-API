@@ -17,7 +17,7 @@ module.exports = {
 
       const thoughtObj = {
         thoughts,
-        thoughtCount: await thoughtCount();
+        thoughtCount: await thoughtCount(),
       };
 
       res.json(thoughtObj);

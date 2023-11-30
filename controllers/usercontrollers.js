@@ -105,8 +105,8 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Delete a friend and remove them 
-  async removeNewFriend(req, res) {
+  // Delete a friend 
+  async deleteNewFriend(req, res) {
     try {
       const friend = await User.findOneAndUpdate(
         { _id: req.params.userId },

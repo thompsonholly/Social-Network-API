@@ -18,10 +18,10 @@ router.route('/').get(getAllThoughts)
 router.route('/:thoughtsId').get(getSingleThought)
 
 // /api/thoughts/:thoughtsId/
-router.route('/:id/thoughts').post(createThought);
+router.route('/:thoughtsId').post(createThought);
 
 // /api/thoughts/:thoughtsId
-router.route('/:id/thoughtsId').delete(deleteThought);
+router.route('/:thoughtsId').delete(deleteThought);
 
 // /api/thoughts/:thoughtsId
 router.route('/:thoughtsId').put(updateThought);

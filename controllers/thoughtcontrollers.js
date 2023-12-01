@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongoose').Types;
-const { Thought } = require('../models');
+const { Thought, User } = require('../models');
 
 
 //aggregate function get the total number of thoughts overall
@@ -50,7 +50,8 @@ module.exports = {
   async createThought(req, res) {
     try {
       const thought = await Thought.create(req.body);
-      res.json(thought);
+      const updateUser = await User.findOneAndUpdate({ _id: req.body.userId }, { $push: { thoughts: thought._id } }, { new: true })
+      res.json({ thought, updateUser });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -67,8 +68,8 @@ module.exports = {
   // Delete a reaction and remove them from the thought
   async deleteThought(req, res) {
     try {
-      const thought = await Thought.findOneAndDelete({ id: req.params._id });
-
+      const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtsId });
+      const updatedUser = await User.findOneAndUpdate({ thoughts: req.params.thoughtsId }, { $pull: { thoughts: req.params.thoughtsId } }, { new: true })
       if (!thought) {
         return res.status(404).json({ message: 'No such thought exists' });
       }
@@ -84,33 +85,33 @@ module.exports = {
   async addReaction(req, res) {
 
     try {
-      const thought = await Thought.findOne({ id: req.params._id });
+      const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtsId }, { $addToSet: { reactions: req.body } }, { runValidators: true, new: true });
       console.log(thought);
 
       //calling reaction thru Thought model
-      const reaction = thought.reactions;
-      console.log(reaction);
+      // const reaction = thought.reactions;
+      // console.log(reaction);
 
       // create new reaction
-      const newReaction = {
-        reactionID: req.params._id,
-        reactionBody: req.body.reactionbody,
-        username: req.body.username,
-        createdAt: req.body.createdAt
-      }
-      console.log(newReaction);
+      // const newReaction = {
+      //   reactionID: req.params._id,
+      //   reactionBody: req.body.reactionbody,
+      //   username: req.body.username,
+      //   createdAt: req.body.createdAt
+      // }
+      // console.log(newReaction);
 
       //update reaction
 
-      thought.reactions = reaction;
+      // thought.reactions = reaction;
 
       // add new reaction
-      reaction.push(newReaction);
+      // reaction.push(newReaction);
 
       // save thought
-      await thought.save();
+      // await thought.save();
 
-      res.json(newReaction);
+      res.json(thought);
 
     } catch (err) {
       res.status(500).json(err);
@@ -119,15 +120,15 @@ module.exports = {
   // Remove reaction from a thought
   async deleteReaction(req, res) {
     try {
-      const reaction = await Thought.findOneAndUpdate(
-        { id: req.params._id },
-        { $pull: { reactions: req.params.reactionId } },
+      const thoughtData = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtsId },
+        { $pull: { reactions: { reactionID: req.params.reactionId } } },
         { new: true }
       );
-
-      if (!reaction) {
-        return res.status(404).json({ message: 'No reactions found :(' });
-      }
+      console.log(thoughtData)
+      // if (!reaction) {
+      //   return res.status(404).json({ message: 'No reactions found :(' });
+      // }
 
       res.json({ message: 'Reaction deleted' });
     } catch (err) {

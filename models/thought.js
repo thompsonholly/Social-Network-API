@@ -1,8 +1,10 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
 //reactionSchema subdocument
 const reactionSchema = new Schema({
-  reactionID: { type: Schema.Types.ObjectId },
+  reactionID: {
+    type: Schema.Types.ObjectId, default: () => new Types.ObjectId()
+  },
   reactionBody: { type: String, required: true, max_length: 280 },
   username: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
@@ -11,7 +13,7 @@ const reactionSchema = new Schema({
 // Schema to create Thought model
 const thoughtSchema = new Schema(
   {
-    thought_text: {
+    thoughtText: {
       type: String,
       required: true,
       min_length: 1,

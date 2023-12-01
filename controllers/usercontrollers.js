@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 //aggregate function to get the total of users overall
 const userCount = async () => {
@@ -10,7 +10,7 @@ module.exports = {
   // Get all users
   async getAllUsers(req, res) {
     try {
-      const users = await User.find();
+      const users = await User.find().populate("friends").populate("thoughts");
 
       const userObj = {
         users,
@@ -27,7 +27,7 @@ module.exports = {
   // Get a user
   async getSingleUser(req, res) {
     try {
-      const user = await User.findOne({ id: req.params._id }).select('-__v');
+      const user = await User.findOne({ _id: req.params.userId }).select('-__v');
 
       if (!user) {
         return res.status(404).json({ message: 'No user with that ID' });
@@ -70,14 +70,14 @@ module.exports = {
       if (!user) {
         return res.status(404).json({ message: 'No user with that ID' });
       }
-      const reaction = await User.findOneAndUpdate(
-        { users: req.params.userId },
-        { $pull: { users: req.params.userId } },
-        { new: true }
-      );
-
-      if (!reaction) {
-        return res.status(404).json({ message: 'User deleted. No reactions found.' });
+      // const updatedUser = await User.findOneAndUpdate(
+      // { users: req.params.userId },
+      // { $pull: { users: req.params.userId } },
+      // { new: true }
+      // );
+      const updateThoughts = await Thought.deleteMany({ _id: { $in: user.thoughts } })
+      if (!updateThoughts) {
+        return res.status(404).json({ message: 'User deleted. No thoughts found.' });
       }
 
       res.json({ message: 'User deleted.' });

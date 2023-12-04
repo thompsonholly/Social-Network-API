@@ -7,7 +7,8 @@ A social network API project, to create an app where users can share thoughts an
 ## Table of Contents
 
 -[Social-Network](#sn)
--[Website Links](#websitelinks)
+-[Github Link](#githublink)
+-[Video Walkthrough](#videowalkthrough)
 -[Credits](#credits)
 
   <a id="sn"></a>
@@ -20,13 +21,16 @@ A social network API project, to create an app where users can share thoughts an
 ![Demo with a IndexedDB storage named 'jate' in the browser](./images/jatestorage.png)
 
 <a id="websitelinks"></a>
-## Website Links
+## Github Link
 
 Github https://github.com/thompsonholly/Social-Network-API
 
+<a id="videowalkthrough">
+## Video Walkthrough 
 
+Video Walkthrough made with Screencastify
 
 <a id="credits"></a>
 ## Credits
 
-Created by Holly Thompson, a student attending the University of Minnesota Bootcamp. 
+Created by Holly Thompson, a student attending the University of Minnesota Full Stack Coding Bootcamp. 

@@ -51,6 +51,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
   // Create a user
   async createUser(req, res) {
     try {
@@ -62,6 +63,16 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
+
+  // async createUser(req, res) {
+  //   try {
+  //     const user = await User.create(req.body);
+  //     res.json(user, "User successfully created.");
+
+  //   } catch (err) {
+  //     res.status(500).json(err);
+  //   }
+  // },
   // Delete a user
   async deleteUser(req, res) {
     try {

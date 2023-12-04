@@ -88,29 +88,6 @@ module.exports = {
       const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtsId }, { $addToSet: { reactions: req.body } }, { runValidators: true, new: true });
       console.log(thought);
 
-      //calling reaction thru Thought model
-      // const reaction = thought.reactions;
-      // console.log(reaction);
-
-      // create new reaction
-      // const newReaction = {
-      //   reactionID: req.params._id,
-      //   reactionBody: req.body.reactionbody,
-      //   username: req.body.username,
-      //   createdAt: req.body.createdAt
-      // }
-      // console.log(newReaction);
-
-      //update reaction
-
-      // thought.reactions = reaction;
-
-      // add new reaction
-      // reaction.push(newReaction);
-
-      // save thought
-      // await thought.save();
-
       res.json(thought);
 
     } catch (err) {

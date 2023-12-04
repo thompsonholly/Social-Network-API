@@ -26,13 +26,13 @@ const {
 } = require('../../controllers/usercontrollers.js');
 
 // /api/users 
-router.route('/').get(getAllUsers)
+router.route('/').get(getAllUsers).post(createUser)
 
 // /api/users get single user/:userId
 router.route('/:userId').get(getSingleUser)
 
-// /api/users/:userId
-router.route('/').post(createUser)
+// /api/users/:userId post create
+
 
 // /api/users/:userId
 router.route('/:userId').put(updateAUser)

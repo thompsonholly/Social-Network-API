@@ -28,7 +28,7 @@ Github https://github.com/thompsonholly/Social-Network-API
 <a id="videowalkthrough">
 ## Video Walkthrough 
 
-Video Walkthrough made with Screencastify
+Video Walkthrough made with Screencastify https://watch.screencastify.com/v/zXNAGW5SgmrMvrYTr8om
 
 <a id="credits"></a>
 ## Credits
